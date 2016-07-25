@@ -20,9 +20,11 @@ var start = function(){
   connection.query('SELECT * FROM Products', function(err, res){
     if (err) throw err;
     console.table(res);
-  }); 
-  prompt.start();
+    console.log('Press Enter to begin shopping');
 
+  }); 
+
+  prompt.start();
   prompt.get(['id', 'quantity'], function(err, result){
     console.log('Order received, processing...');
     console.log('Product ID: ' + result.id);
