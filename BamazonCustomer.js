@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "",
+  password: "ripper",
   database: "bamazon"
 });
 
@@ -20,15 +20,23 @@ var start = function(){
   connection.query('SELECT * FROM Products', function(err, res){
     if (err) throw err;
     console.table(res);
-    console.log('Press Enter to begin shopping');
+    console.log('Select a product by ID:');
 
   }); 
 
   prompt.start();
   prompt.get(['id', 'quantity'], function(err, result){
+    var orderId = parseInt(result.id);
+    var quantity = parseInt(result.quantity);
     console.log('Order received, processing...');
-    console.log('Product ID: ' + result.id);
-    console.log('Order Quantity: ' + result.quantity);
+    console.log('Product ID: ' + orderId);
+    console.log('Order Quantity: ' + quantity);
+
+    var query = 'SELECT ProductName FROM Products WHERE ?';
+    connection.query(query, {id: orderId}, function(err, res){
+      console.log(res);
+    });
+
   });
 
   connection.end();
